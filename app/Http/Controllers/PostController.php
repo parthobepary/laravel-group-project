@@ -41,10 +41,10 @@ class PostController extends Controller
      * @param  \App\Http\Requests\StorePostRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PostValidate $request)
+    public function store(StorePostRequest $request)
     {
-        $data = $request->validate();
-        if ($request - filled('title')) {
+        $data = $request->validated();
+        if ($request->filled('title')) {
             $data['slug'] = Str::slug($request->title);
         }
         $post = Post::create($data);
