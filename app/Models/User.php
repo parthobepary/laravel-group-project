@@ -46,4 +46,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
+    public function books(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Book::class, 'a_id', 'id');
+    }
 }

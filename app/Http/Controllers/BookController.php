@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Models\Book;
+use App\Http\Requests\StoreBookRequest;
+use App\Http\Requests\UpdateBookRequest;
 
-class UserController extends Controller
+class BookController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,9 +15,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('posts', 'books')->get();
+        $books = Book::with('user')->get();
         return response()->json([
-            'users' => $users,
+            'books' => $books,
         ]);
     }
 
@@ -33,34 +34,25 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\StoreBookRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreBookRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6'
-        ]);
-
-        $data = $request->except('password');
-        if ($request->has('password')) {
-            $data['password'] = bcrypt($request->password);
-        };
-        $user = User::create($data);
+        $data = $request->validated();
+        $books = Book::create($data);
         return response()->json([
-            'user' => $user,
+            'books' => $books,
         ]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Book $book)
     {
         //
     }
@@ -68,10 +60,10 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Book $book)
     {
         //
     }
@@ -79,11 +71,11 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\UpdateBookRequest  $request
+     * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateBookRequest $request, Book $book)
     {
         //
     }
@@ -91,10 +83,10 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Book $book)
     {
         //
     }
