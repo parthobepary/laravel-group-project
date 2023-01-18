@@ -68,7 +68,9 @@ class BookController extends Controller
      */
     public function update(UpdateBookRequest $request, Book $book)
     {
-        //
+      /*   $data = $request->validated();
+        $data->update($book);
+        return $data; */
     }
 
     /**
@@ -79,6 +81,7 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        $book->delete();
+        return response()->noContent();
     }
 }

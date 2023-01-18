@@ -13,7 +13,7 @@ class UpdateBookRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class UpdateBookRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'course_id' => 'required|exists:courses,id',
+            'title' => 'required',
+            'sub_title' => 'required',
+            'price' => 'required',
         ];
     }
 }
